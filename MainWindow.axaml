@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		x:Class="ClassCodexDownloader.MainWindow"
+		Title="ClassCodex Downloader"
+		Width="900"
+		Height="450"
+		Icon="avares://ClassCodexDownloader/Icon.ico">
+
+  <Grid Margin="12"
+		RowDefinitions="Auto,8,Auto,12,*">
+	<StackPanel Grid.Row="0">
+	  <TextBlock Margin="0,0,0,4" Text="AddOns Path" />
+	  <TextBox Name="AddonsPathTextBox"
+			   LostFocus="AddonsPathTextBox_LostFocus" />
+	</StackPanel>
+
+	<Button Name="RunDownloaderButton"
+			Grid.Row="2"
+			Width="200"
+			Height="32"
+			Padding="12,6"
+			HorizontalAlignment="Left"
+			HorizontalContentAlignment="Center"
+			VerticalContentAlignment="Center"
+			Content="Install or update addon"
+			Click="RunDownloaderButton_Click" />
+
+	<TextBox Name="LogTextBox"
+			 Grid.Row="4"
+			 IsReadOnly="True"
+			 AcceptsReturn="True"
+			 ScrollViewer.VerticalScrollBarVisibility="Auto"
+			 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+			 TextWrapping="NoWrap"
+			 FontFamily="Consolas"
+			 FontSize="13" />
+  </Grid>
+</Window>
