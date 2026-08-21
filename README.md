@@ -1,12 +1,12 @@
 # WoW ClassCodex Addon Downloader
 
-This repository provides a downloader script for the ClassCodex Addon for World of Warcraft.
+This repository provides a downloader program for the ClassCodex Addon for World of Warcraft, based on gable44 Python version (https://github.com/gable44/WoWClassCodexDownloader)
 
 # ClassCodex Downloader
 
-A simple downloader script for the [ClassCodex](https://addons.wago.io/addons/classcodex) Addon for World of Warcraft. (https://www.icy-veins.com/download)
+A simple downloader program for the [ClassCodex](https://addons.wago.io/addons/classcodex) Addon for World of Warcraft. (https://www.icy-veins.com/download)
 
-The script downloads the latest production build of ClassCodex, verifies the downloaded files using SHA-256 checksums, and installs or updates the addon in your addons folder defined in the script folder.
+The program downloads the latest production build of ClassCodex, verifies the downloaded files using SHA-256 checksums, and installs or updates the addon in your addons folder defined in the appsettings file.
 
 ## Features
 
@@ -16,32 +16,27 @@ The script downloads the latest production build of ClassCodex, verifies the dow
 * Skips files that are already up to date
 * Prevents unsafe manifest paths
 * Uses temporary files during downloads to avoid incomplete files
-* Supports a dry-run mode
 
 ## Requirements
 
-* Python 3.9 or newer
+* .NET 10.0 SDK
 * World of Warcraft game client
 
-The script uses only Python's standard library, so no additional packages are required.
+The program HMI uses Avalonia Framework that is resolved via NuGet directly. The reason is to be executable under Linux.
 
 ## Configuration
 
-Open `download_classcodex.py` and set `ADDONS_PATH` to your World of Warcraft `AddOns` folder.
+Open 'appsettings.json' and set 'AddonsPath' to your World of Warcraft 'AddOns' folder. In HMI version, you can set the path in the window without editing the file, and the path will be saved for future executions.
+In CLI app, the file needs to be set manually before first run.
 
 ## Usage
-Run the script from a terminal:
-```bash
-python download_classcodex.py
-```
+Run the HMI program and set the addons path in it, and it will be remembered for next execution.
+Or
+Run the CLI program a terminal:
 
-## Dry Run
-If you want to see which files would be downloaded without modifying anything, set:
-```python
-DRY_RUN = True
-```
+'ClassCodexDownloaderCli' without arguments after editing appsettings.json file to set the addons path.
 
-The script will:
+The program will:
 1. Download the current ClassCodex channel configuration.
 2. Download and verify the manifest.
 3. Verify that the manifest belongs to ClassCodex Retail.
@@ -50,15 +45,13 @@ The script will:
 6. Verify every downloaded file.
 7. Report the installed build and download results.
 
-
-
 ## Security
 The downloader performs integrity checks before installing files.
 The channel configuration provides the expected SHA-256 hash of the manifest. The manifest then provides the expected SHA-256 hash and file size for each addon file.
 Downloaded files are verified before they are considered successfully installed.
-The script also rejects manifest paths containing unsafe path traversal components.
+The program also rejects manifest paths containing unsafe path traversal components.
 
 ## Disclaimer
-This is an independent downloader script for the ClassCodex Addon.
+This is an independent downloader program for the ClassCodex Addon.
 World of Warcraft and related trademarks are property of their respective owners. This project is not affiliated with or endorsed by Blizzard Entertainment unless explicitly stated otherwise.
 The ClassCodex addon, its data, and its distribution infrastructure may be subject to their own licenses and terms. This repository's license applies only to the code contained in this repository.
