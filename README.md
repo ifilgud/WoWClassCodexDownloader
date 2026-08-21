@@ -1,6 +1,6 @@
 # WoW ClassCodex Addon Downloader
 
-This repository provides a downloader program for the ClassCodex Addon for World of Warcraft, based on gable44 Python version (https://github.com/gable44/WoWClassCodexDownloader)
+This repository provides a downloader C# program for the ClassCodex Addon for World of Warcraft, based on gable44 Python version (https://github.com/gable44/WoWClassCodexDownloader)
 
 # ClassCodex Downloader
 
