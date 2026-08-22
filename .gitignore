@@ -7,3 +7,4 @@
 /Cli/bin
 /Cli/obj
 /obj
+*.user

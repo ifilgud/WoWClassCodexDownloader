@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Win32;
@@ -81,8 +81,7 @@ public static class SettingsStore
                 root = new JsonObject();
             }
 
-            var section = root[SectionName] as JsonObject;
-            if (section is null)
+            if (root[SectionName] is not JsonObject section)
             {
                 section = new JsonObject();
                 root[SectionName] = section;
@@ -104,7 +103,7 @@ public static class SettingsStore
 
     public static string GetDefaultAddonsPath()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (OperatingSystem.IsWindows())
         {
             var discoveredPath = TryDiscoverWindowsAddonsPath();
             if (!string.IsNullOrWhiteSpace(discoveredPath))
@@ -134,7 +133,7 @@ public static class SettingsStore
             return false;
         }
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!OperatingSystem.IsWindows())
         {
             return true;
         }
@@ -162,6 +161,7 @@ public static class SettingsStore
         return normalized.TrimEnd(IOPath.DirectorySeparatorChar);
     }
 
+    [SupportedOSPlatform("windows")]
     private static string? TryDiscoverWindowsAddonsPath()
     {
         foreach (var installPath in GetInstallPathsFromRegistry())
@@ -185,6 +185,7 @@ public static class SettingsStore
         return null;
     }
 
+    [SupportedOSPlatform("windows")]
     private static IEnumerable<string> GetInstallPathsFromRegistry()
     {
         var keyPaths = new[]
@@ -360,7 +361,7 @@ public static class SettingsStore
     {
         var chars = new List<char>(256);
 
-        bool IsPathChar(char c) =>
+        static bool IsPathChar(char c) =>
             char.IsLetterOrDigit(c)
             || c is ':' or '\\' or '/' or '_' or '-' or '.' or ' ' or '(' or ')';
 
