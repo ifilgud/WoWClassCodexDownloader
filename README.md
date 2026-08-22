@@ -6,7 +6,7 @@ This repository provides a downloader C# program for the ClassCodex Addon for Wo
 
 A simple downloader program for the [ClassCodex](https://addons.wago.io/addons/classcodex) Addon for World of Warcraft. (https://www.icy-veins.com/download)
 
-The program downloads the latest production build of ClassCodex, verifies the downloaded files using SHA-256 checksums, and installs or updates the addon in your addons folder defined in the appsettings file.
+The program downloads the latest production build of ClassCodex, verifies the downloaded files using SHA-256 checksums, and installs or updates the addon in your AddOns folder.
 
 ## Features
 
@@ -16,6 +16,7 @@ The program downloads the latest production build of ClassCodex, verifies the do
 * Skips files that are already up to date
 * Prevents unsafe manifest paths
 * Uses temporary files during downloads to avoid incomplete files
+* Automatically discovers the default WoW AddOns path on Windows using the registry or Battle.net configuration
 
 ## Requirements
 
@@ -26,15 +27,20 @@ The program HMI uses Avalonia Framework that is resolved via NuGet directly. The
 
 ## Configuration
 
-Open 'appsettings.json' and set 'AddonsPath' to your World of Warcraft 'AddOns' folder. In HMI version, you can set the path in the window without editing the file, and the path will be saved for future executions.
-In CLI app, the file needs to be set manually before first run.
+You can configure `AddonsPath` in `appsettings.json`.
+
+By default, on Windows, the app tries to discover the WoW AddOns path automatically (registry first, then Battle.net configuration files). If discovery is successful, that discovered path is used as the default.
+
+`appsettings.json` still has priority when you intentionally set a custom path. If the saved value is still the legacy default (`C:\Program Files (x86)\World of Warcraft\_retail_\Interface\AddOns`), the app treats it as non-custom and uses the discovered path when available.
+
+In the HMI version, you can set the path in the window and it is saved for future runs.
+In the CLI app, set `AddonsPath` in `appsettings.json` when you want to force a custom location.
 
 ## Usage
-Run the HMI program and set the addons path in it, and it will be remembered for next execution.
-Or
-Run the CLI program a terminal:
+Run the HMI program. The AddOns path is auto-detected when possible, and any path you set in the UI is remembered for the next execution.
+Or run the CLI program in a terminal:
 
-'ClassCodexDownloaderCli' without arguments after editing appsettings.json file to set the addons path.
+`ClassCodexDownloaderCli` (no arguments).
 
 The program will:
 1. Download the current ClassCodex channel configuration.
