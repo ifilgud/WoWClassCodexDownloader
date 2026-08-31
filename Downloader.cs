@@ -13,6 +13,26 @@ public static class Downloader
 
     private const int ChunkSize = 1024 * 1024;
 
+    public static bool IsAddonInstalled(string addonsPathInput)
+    {
+        if (string.IsNullOrWhiteSpace(addonsPathInput)
+            || addonsPathInput.TrimStart().StartsWith("/path/", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        try
+        {
+            var addonsPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(addonsPathInput.Trim()));
+            var addonFolder = Path.Combine(addonsPath, "ClassCodex");
+            return Directory.Exists(addonFolder);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static async Task RunAsync(
         string addonsPathInput,
         Action<string>? log = null,

@@ -25,6 +25,7 @@ public partial class MainWindow : Window
             ?? throw new InvalidOperationException("LogTextBox not found.");
 
         LoadSettings();
+        Opened += OnOpened;
     }
 
     private void InitializeComponent()
@@ -32,7 +33,25 @@ public partial class MainWindow : Window
         AvaloniaXamlLoader.Load(this);
     }
 
+    private async void OnOpened(object? sender, EventArgs e)
+    {
+        Opened -= OnOpened;
+
+        var addonsPath = _addonsPathTextBox.Text?.Trim() ?? string.Empty;
+        if (!Downloader.IsAddonInstalled(addonsPath))
+        {
+            return;
+        }
+
+        await RunDownloaderAsync("ClassCodex addon detected. Starting automatic update...");
+    }
+
     private async void RunDownloaderButton_Click(object? sender, RoutedEventArgs e)
+    {
+        await RunDownloaderAsync();
+    }
+
+    private async Task RunDownloaderAsync(string? startMessage = null)
     {
         try
         {
@@ -46,7 +65,11 @@ public partial class MainWindow : Window
             _runDownloaderButton.IsEnabled = false;
             SaveSettings();
 
-            if (_logTextBox.Text?.Length > 0)
+            if (!string.IsNullOrWhiteSpace(startMessage))
+            {
+                AppendLogLine(startMessage);
+            }
+            else if (_logTextBox.Text?.Length > 0)
             {
                 AppendLogLine(string.Empty);
                 AppendLogLine("----------------------------------------");
