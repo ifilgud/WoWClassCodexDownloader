@@ -4,6 +4,7 @@
 		Title="ClassCodex Downloader"
 		Width="900"
 		Height="450"
+		WindowStartupLocation="CenterScreen"
 		Icon="avares://ClassCodexDownloader/Icon.ico">
 
   <Grid Margin="12"
